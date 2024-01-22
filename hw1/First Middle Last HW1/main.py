@@ -48,22 +48,27 @@ def validate(model, device, val_loader, criterion):
             data, target = data.to(device).view(data.size(0), -1), target.to(device)
 
             # compute the output
-            output = model(data)
+            output = model(data)        # [batchSize, numClass]
 
             # compute the classification error and loss
-            pred = output.max(1)[1]
+            pred = output.max(1)[1]     # return max the indice in each row and get [value, index]
             sum_correct += pred.eq(target).sum().item()
             sum_loss += len(data) * criterion(output, target).item()
 
             # compute the margin
             # *********** Your code starts here ***********
-
-
+            pred_softmax = torch.nn.functional.softmax(output, dim=1)           # dim=1 -> do softmax in rows
+            correct_pred_softmax = pred_softmax.gather(1, target.unsqueeze(1)).squeeze()
+            other_pred_softmax = pred_softmax.clone()
+            other_pred_softmax[range(other_pred_softmax.size(0)), target] = 0   # turn correct idx to 0            
+            max_other_pred_softmax = other_pred_softmax.max(dim=1)[0]
+            batch_margin = correct_pred_softmax - max_other_pred_softmax        # margin can be nagative when the pred is wrong
+            margin = margin.cat(margin, batch_margin)
             # *********** Your code ends here *************
 
     # calculate the 5th percentile margin
     # *********** Your code starts here ***********
-    percentile_margin =
+    percentile_margin = torch.quantile(margin, 0.05)
 
     # *********** Your code ends here *************
 
@@ -78,8 +83,8 @@ def load_cifar10_data(split, datadir):
     # *********** Your code starts here ***********
     # The mean and standard deviation of the CIFAR-10 dataset: mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
     train_transform = transforms.Compose([
-            transforms.RandomCrop(32),
-            transforms.RandomHorizontalFlip(), 
+            transforms.RandomCrop(size=32),
+            transforms.RandomHorizontalFlip(p=0.5), 
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
@@ -87,7 +92,6 @@ def load_cifar10_data(split, datadir):
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
-
     # *********** Your code ends here *************
 
     if split == 'train':
@@ -101,14 +105,17 @@ def load_cifar10_data(split, datadir):
 def make_model(nchannels, nunits, nclasses, checkpoint=None):
     # define the model
     # *********** Your code starts here ***********
-
-
+    model = nn.Sequential(
+        nn.Linear(nchannels, nunits),
+        nn.ReLU(),
+        nn.Linear(nunits, nclasses)
+    )
     # *********** Your code ends here *************
 
     # load the model from the checkpoint if provided
     # *********** Your code starts here ***********
-
-
+    if checkpoint:
+        model.load_state_dict(torch.load(checkpoint))
     # *********** Your code ends here *************
     return model
 
@@ -237,10 +244,10 @@ def main():
     # define the parameters to train your model
     # *********** Your code starts here ***********
     datadir = 'datasets'  # the directory of the dataset
-    nchannels =
-    nclasses =
+    nchannels = 3
+    nclasses = 10
     nunits =1024
-    lr =    0.001
+    lr = 0.001
     mt = 0.8                #momentum
     batchsize = 64
     epochs = 25
