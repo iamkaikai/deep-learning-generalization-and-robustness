@@ -6,7 +6,7 @@ import numpy as np
 import random
 import copy
 import math
-
+import os
 
 # train the model for one epoch on the given dataset
 def train(model, device, train_loader, criterion, optimizer):
@@ -57,6 +57,8 @@ def validate(model, device, val_loader, criterion):
 
             # compute the margin
             # *********** Your code starts here ***********
+            
+            #
             pred_softmax = torch.nn.functional.softmax(output, dim=1)           # dim=1 -> do softmax in rows
             correct_pred_softmax = pred_softmax.gather(1, target.unsqueeze(1)).squeeze()
             other_pred_softmax = pred_softmax.clone()
@@ -123,15 +125,14 @@ def make_model(nchannels, nunits, nclasses, checkpoint=None):
 def calculate_bound(model, init_model, device, data_loader, margin):
     # switch to evaluate mode
     # *********** Your code starts here ***********
-
-
+    model.eval()
     # *********** Your code ends here *************
 
     modules = list(model.children())
     init_modules = list(init_model.children())
 
-    D = modules[0].weight.size(1) # data dimension
-    H = modules[0].weight.size(0) # number of hidden units
+    D = modules[0].weight.size(1) # data dimension      <-------- maight need to switch
+    H = modules[0].weight.size(0) # number of hidden units  <---- maight need to switch
     C = modules[2].weight.size(0) # number of classes (output dimension)
     num_param = sum(p.numel() for p in model.parameters()) # number of parameters of the model
 
@@ -139,31 +140,33 @@ def calculate_bound(model, init_model, device, data_loader, margin):
         # Eigenvalues of the weight matrix in the first and second layer
         _,S1,_ = modules[0].weight.svd()
         _,S2,_ = modules[2].weight.svd()
+        
         # Eigenvalues of the initial weight matrix in the first and second layer
         _,S01,_ = init_modules[0].weight.svd()
         _,S02,_ = init_modules[2].weight.svd()
 
         # Frobenius norm of the weight matrix in the first and second layer
         # *********** Your code starts here ***********
-        Fr1 =
-        Fr2 =
+        Fr1 = modules[0].weight.norm(p=2)
+        Fr2 = modules[2].weight.norm(p=2)
         # *********** Your code ends here *************
 
         # Difference of final weights to the initial weights in the first and second layer
         # *********** Your code starts here ***********
-        diff1 =
-        diff2 =
+        diff1 = modules[0].weight - init_modules[0].weight
+        diff2 = modules[2].weight - init_modules[2].weight
         # *********** Your code ends here *************
 
         # Euclidean distance of the weight matrix in the first and second layer to the initial weight matrix
         # *********** Your code starts here ***********
-        Dist1 =
-        Dist2 =
+        Dist1 = diff1.norm(p=2)
+        Dist2 = diff2.norm(p=2)
         # *********** Your code ends here *************
 
         # L_{1,infty} norm of the weight matrix in the first and second layer
         L1max1 = modules[0].weight.norm(p=1, dim=1).max()
         L1max2 = modules[2].weight.norm(p=1, dim=1).max()
+        
         # L_{2,1} distance of the weight matrix in the first and second layer to the initial weight matrix
         L1Dist1 = diff1.norm(p=2, dim=1 ).sum()
         L1Dist2 = diff2.norm(p=2, dim=1 ).sum()
@@ -186,8 +189,9 @@ def calculate_bound(model, init_model, device, data_loader, margin):
 
         # Compute the Frobenius Distance
         # *********** Your code starts here ***********
-        measure['Dist_Fro'] =
-
+        
+        measure['Dist_Fro'] = Dist1 * Fr2
+        
         # *********** Your code ends here *************
 
         # delta is the probability that the generalization bound does not hold
@@ -233,12 +237,18 @@ def calculate_bound(model, init_model, device, data_loader, margin):
 
         # Compute the Generalization bound as provided in the instruction
         # *********** Your code starts here ***********
-        measure['Your bound'] =
+        measure['Your bound'] = math.square(8 * math.sqrt(C) * Fr1 * Fr2 * math.sqrt(data_L2) / margin + 3 * math.sqrt(math.log(m/delta)))
 
         # *********** Your code ends here *************
 
     return measure
 
+def save_checkpoint(model):
+    if not os.path.isdir('checkpoint'):
+        os.mkdir('checkpoint')
+        
+    model_pth = 'checkpoint/model_1.pt'
+    torch.save(model.state_dict(), model_pth)
 
 def main():
     # define the parameters to train your model
@@ -267,8 +277,8 @@ def main():
 
     # define loss function (criterion) and optimizer
     # *********** Your code starts here ***********
-    criterion =
-    optimizer =
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.SGD(model.parameters(), lr=lr, momentum=mt)
     # *********** Your code ends here *************
 
     # loading data
@@ -281,8 +291,9 @@ def main():
     # training the model
     for epoch in range(0, epochs):
         # *********** Your code starts here ***********
-        train_acc, train_loss =   # Training
-        val_acc, val_loss, val_margin =   # Validation
+        
+        train_acc, train_loss = train(model, device, train_loader, criterion, optimizer)    # Training
+        val_acc, val_loss, val_margin = train(model, device, val_loader, criterion, optimizer)      # Validation
 
         # *********** Your code ends here *************
 
@@ -295,14 +306,13 @@ def main():
 
     # save the trained model
     # *********** Your code starts here ***********
-
-
+    save_checkpoint(model)
     # *********** Your code ends here *************
 
     # calculate the training error and margin (on Training set) of the learned model
     # *********** Your code starts here ***********
-    train_acc, train_loss, train_margin =
-    val_acc, val_loss, val_margin =
+    train_acc, train_loss, train_margin = validate(model, device, train_loader, criterion)
+    val_acc, val_loss, val_margin = validate(model, device, val_loader, criterion)
     # *********** Your code ends here *************
 
     print(f'=================== Summary ===================\n',
