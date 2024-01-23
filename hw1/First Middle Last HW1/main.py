@@ -57,15 +57,13 @@ def validate(model, device, val_loader, criterion):
 
             # compute the margin
             # *********** Your code starts here ***********
-            
-            #
             pred_softmax = torch.nn.functional.softmax(output, dim=1)           # dim=1 -> do softmax in rows
             correct_pred_softmax = pred_softmax.gather(1, target.unsqueeze(1)).squeeze()
             other_pred_softmax = pred_softmax.clone()
             other_pred_softmax[range(other_pred_softmax.size(0)), target] = 0   # turn correct idx to 0            
             max_other_pred_softmax = other_pred_softmax.max(dim=1)[0]
             batch_margin = correct_pred_softmax - max_other_pred_softmax        # margin can be nagative when the pred is wrong
-            margin = margin.cat(margin, batch_margin)
+            margin = torch.cat((margin, batch_margin))
             # *********** Your code ends here *************
 
     # calculate the 5th percentile margin
@@ -237,24 +235,22 @@ def calculate_bound(model, init_model, device, data_loader, margin):
 
         # Compute the Generalization bound as provided in the instruction
         # *********** Your code starts here ***********
-        measure['Your bound'] = math.square(8 * math.sqrt(C) * Fr1 * Fr2 * math.sqrt(data_L2) / margin + 3 * math.sqrt(math.log(m/delta)))
-
+        measure['Your bound'] = (8 * math.sqrt(C) * Fr1 * Fr2 * math.sqrt(data_L2) / margin + 3 * math.sqrt(math.log(m/delta)))**2
         # *********** Your code ends here *************
 
     return measure
 
-def save_checkpoint(model):
+def save_checkpoint(fileName, model):
     if not os.path.isdir('checkpoint'):
         os.mkdir('checkpoint')
-        
-    model_pth = 'checkpoint/model_1.pt'
+    model_pth = 'checkpoint/{fileName}.pt'
     torch.save(model.state_dict(), model_pth)
 
 def main():
     # define the parameters to train your model
     # *********** Your code starts here ***********
     datadir = 'datasets'  # the directory of the dataset
-    nchannels = 3
+    nchannels = 3 * 32 * 32
     nclasses = 10
     nunits =1024
     lr = 0.001
@@ -262,7 +258,6 @@ def main():
     batchsize = 64
     epochs = 25
     stopcond = 0.01
-
     # *********** Your code ends here *************
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -293,7 +288,7 @@ def main():
         # *********** Your code starts here ***********
         
         train_acc, train_loss = train(model, device, train_loader, criterion, optimizer)    # Training
-        val_acc, val_loss, val_margin = train(model, device, val_loader, criterion, optimizer)      # Validation
+        val_acc, val_loss, val_margin = validate(model, device, val_loader, criterion)      # Validation
 
         # *********** Your code ends here *************
 
@@ -306,7 +301,7 @@ def main():
 
     # save the trained model
     # *********** Your code starts here ***********
-    save_checkpoint(model)
+    save_checkpoint('check1', model)
     # *********** Your code ends here *************
 
     # calculate the training error and margin (on Training set) of the learned model
