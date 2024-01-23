@@ -7,6 +7,10 @@ import random
 import copy
 import math
 import os
+import warnings
+
+# Suppress specific UserWarning from a module
+warnings.filterwarnings("ignore", category=UserWarning, module='transformers.utils.generic')
 
 # train the model for one epoch on the given dataset
 def train(model, device, train_loader, criterion, optimizer):
@@ -243,7 +247,7 @@ def calculate_bound(model, init_model, device, data_loader, margin):
 def save_checkpoint(fileName, model):
     if not os.path.isdir('checkpoint'):
         os.mkdir('checkpoint')
-    model_pth = 'checkpoint/{fileName}.pt'
+    model_pth = f'checkpoint/{fileName}.pt'
     torch.save(model.state_dict(), model_pth)
 
 def main():
@@ -252,7 +256,7 @@ def main():
     datadir = 'datasets'  # the directory of the dataset
     nchannels = 3 * 32 * 32
     nclasses = 10
-    nunits =1024
+    nunits =256
     lr = 0.001
     mt = 0.8                #momentum
     batchsize = 64
@@ -301,7 +305,7 @@ def main():
 
     # save the trained model
     # *********** Your code starts here ***********
-    save_checkpoint('check1', model)
+    save_checkpoint('check2', model)
     # *********** Your code ends here *************
 
     # calculate the training error and margin (on Training set) of the learned model
