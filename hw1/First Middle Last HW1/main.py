@@ -296,8 +296,8 @@ def main():
 
         # *********** Your code ends here *************
 
-        print(f'Epoch: {epoch + 1}/{epochs}\t Training loss: {train_loss:.3f}   Training accuracy: {train_acc:.3f}   ',
-              f'Validation margin {val_margin:.3f}   Validation accuracy: {val_acc:.3f}')
+        print(f'Epoch: {epoch + 1}/{epochs}\t  Training loss: {train_loss:.3f}  Training accuracy: {train_acc:.3f}   ',
+              f'Validation margin: {val_margin:.3f}  Validation loss: {val_loss:.3f}  Validation accuracy: {val_acc:.3f}')
 
         # stop training if the cross-entropy loss is less than the stopping condition
         if train_loss < stopcond:
