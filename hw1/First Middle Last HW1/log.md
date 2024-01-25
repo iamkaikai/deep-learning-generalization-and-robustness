@@ -1,28 +1,28 @@
-Epoch: 1/25      Training loss: 1.799   Training accuracy: 0.373    Validation margin -0.402   Validation accuracy: 0.431
-Epoch: 2/25      Training loss: 1.606   Training accuracy: 0.443    Validation margin -0.459   Validation accuracy: 0.460
-Epoch: 3/25      Training loss: 1.530   Training accuracy: 0.471    Validation margin -0.456   Validation accuracy: 0.479
-Epoch: 4/25      Training loss: 1.476   Training accuracy: 0.491    Validation margin -0.480   Validation accuracy: 0.484
-Epoch: 5/25      Training loss: 1.434   Training accuracy: 0.506    Validation margin -0.491   Validation accuracy: 0.502
-Epoch: 6/25      Training loss: 1.397   Training accuracy: 0.519    Validation margin -0.493   Validation accuracy: 0.507
-Epoch: 7/25      Training loss: 1.364   Training accuracy: 0.534    Validation margin -0.507   Validation accuracy: 0.514
-Epoch: 8/25      Training loss: 1.335   Training accuracy: 0.540    Validation margin -0.523   Validation accuracy: 0.520
-Epoch: 9/25      Training loss: 1.309   Training accuracy: 0.551    Validation margin -0.538   Validation accuracy: 0.525
-Epoch: 10/25     Training loss: 1.287   Training accuracy: 0.560    Validation margin -0.528   Validation accuracy: 0.531
-Epoch: 11/25     Training loss: 1.263   Training accuracy: 0.568    Validation margin -0.535   Validation accuracy: 0.537
-Epoch: 12/25     Training loss: 1.241   Training accuracy: 0.577    Validation margin -0.570   Validation accuracy: 0.536
-Epoch: 13/25     Training loss: 1.221   Training accuracy: 0.585    Validation margin -0.528   Validation accuracy: 0.547
-Epoch: 14/25     Training loss: 1.202   Training accuracy: 0.591    Validation margin -0.538   Validation accuracy: 0.547
-Epoch: 15/25     Training loss: 1.184   Training accuracy: 0.599    Validation margin -0.559   Validation accuracy: 0.543
-Epoch: 16/25     Training loss: 1.166   Training accuracy: 0.606    Validation margin -0.562   Validation accuracy: 0.549
-Epoch: 17/25     Training loss: 1.148   Training accuracy: 0.609    Validation margin -0.566   Validation accuracy: 0.553
-Epoch: 18/25     Training loss: 1.131   Training accuracy: 0.617    Validation margin -0.562   Validation accuracy: 0.555
-Epoch: 19/25     Training loss: 1.116   Training accuracy: 0.621    Validation margin -0.582   Validation accuracy: 0.554
-Epoch: 20/25     Training loss: 1.099   Training accuracy: 0.627    Validation margin -0.593   Validation accuracy: 0.556
-Epoch: 21/25     Training loss: 1.084   Training accuracy: 0.633    Validation margin -0.588   Validation accuracy: 0.563
-Epoch: 22/25     Training loss: 1.068   Training accuracy: 0.638    Validation margin -0.612   Validation accuracy: 0.557
-Epoch: 23/25     Training loss: 1.052   Training accuracy: 0.645    Validation margin -0.599   Validation accuracy: 0.563
-Epoch: 24/25     Training loss: 1.038   Training accuracy: 0.650    Validation margin -0.612   Validation accuracy: 0.568
-Epoch: 25/25     Training loss: 1.023   Training accuracy: 0.655    Validation margin -0.616   Validation accuracy: 0.564
+Epoch: 1/25       Training loss: 1.799  Training accuracy: 0.373    Validation margin: -0.402  Validation loss: 1.647  Validation accuracy: 0.431
+Epoch: 2/25       Training loss: 1.606  Training accuracy: 0.443    Validation margin: -0.459  Validation loss: 1.558  Validation accuracy: 0.460
+Epoch: 3/25       Training loss: 1.530  Training accuracy: 0.471    Validation margin: -0.456  Validation loss: 1.505  Validation accuracy: 0.479
+Epoch: 4/25       Training loss: 1.476  Training accuracy: 0.491    Validation margin: -0.480  Validation loss: 1.471  Validation accuracy: 0.484
+Epoch: 5/25       Training loss: 1.434  Training accuracy: 0.506    Validation margin: -0.491  Validation loss: 1.436  Validation accuracy: 0.502
+Epoch: 6/25       Training loss: 1.397  Training accuracy: 0.519    Validation margin: -0.493  Validation loss: 1.412  Validation accuracy: 0.507
+Epoch: 7/25       Training loss: 1.364  Training accuracy: 0.534    Validation margin: -0.507  Validation loss: 1.396  Validation accuracy: 0.514
+Epoch: 8/25       Training loss: 1.335  Training accuracy: 0.540    Validation margin: -0.523  Validation loss: 1.379  Validation accuracy: 0.520
+Epoch: 9/25       Training loss: 1.309  Training accuracy: 0.551    Validation margin: -0.538  Validation loss: 1.361  Validation accuracy: 0.525
+Epoch: 10/25      Training loss: 1.287  Training accuracy: 0.560    Validation margin: -0.528  Validation loss: 1.350  Validation accuracy: 0.531
+Epoch: 11/25      Training loss: 1.263  Training accuracy: 0.568    Validation margin: -0.535  Validation loss: 1.329  Validation accuracy: 0.537
+Epoch: 12/25      Training loss: 1.241  Training accuracy: 0.577    Validation margin: -0.570  Validation loss: 1.326  Validation accuracy: 0.536
+Epoch: 13/25      Training loss: 1.221  Training accuracy: 0.585    Validation margin: -0.528  Validation loss: 1.308  Validation accuracy: 0.547
+Epoch: 14/25      Training loss: 1.202  Training accuracy: 0.591    Validation margin: -0.538  Validation loss: 1.304  Validation accuracy: 0.547
+Epoch: 15/25      Training loss: 1.184  Training accuracy: 0.599    Validation margin: -0.559  Validation loss: 1.300  Validation accuracy: 0.543
+Epoch: 16/25      Training loss: 1.166  Training accuracy: 0.606    Validation margin: -0.562  Validation loss: 1.288  Validation accuracy: 0.549
+Epoch: 17/25      Training loss: 1.148  Training accuracy: 0.609    Validation margin: -0.566  Validation loss: 1.285  Validation accuracy: 0.553
+Epoch: 18/25      Training loss: 1.131  Training accuracy: 0.617    Validation margin: -0.562  Validation loss: 1.278  Validation accuracy: 0.555
+Epoch: 19/25      Training loss: 1.116  Training accuracy: 0.621    Validation margin: -0.582  Validation loss: 1.279  Validation accuracy: 0.554
+Epoch: 20/25      Training loss: 1.099  Training accuracy: 0.627    Validation margin: -0.593  Validation loss: 1.272  Validation accuracy: 0.556
+Epoch: 21/25      Training loss: 1.084  Training accuracy: 0.633    Validation margin: -0.588  Validation loss: 1.263  Validation accuracy: 0.563
+Epoch: 22/25      Training loss: 1.068  Training accuracy: 0.638    Validation margin: -0.612  Validation loss: 1.269  Validation accuracy: 0.557
+Epoch: 23/25      Training loss: 1.052  Training accuracy: 0.645    Validation margin: -0.599  Validation loss: 1.254  Validation accuracy: 0.563
+Epoch: 24/25      Training loss: 1.038  Training accuracy: 0.650    Validation margin: -0.612  Validation loss: 1.255  Validation accuracy: 0.568
+Epoch: 25/25      Training loss: 1.023  Training accuracy: 0.655    Validation margin: -0.616  Validation loss: 1.253  Validation accuracy: 0.564
 =================== Summary ===================
  Training loss: 0.997   Training margin -0.484    Training accuracy: 0.668   Validation accuracy: 0.564
 

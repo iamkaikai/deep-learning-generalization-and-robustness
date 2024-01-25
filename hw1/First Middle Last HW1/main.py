@@ -110,7 +110,7 @@ def make_model(nchannels, nunits, nclasses, checkpoint=None):
     # define the model
     # *********** Your code starts here ***********
     model = nn.Sequential(
-        nn.Linear(nchannels, nunits),
+        nn.Linear(nchannels * 32 * 32, nunits),
         nn.ReLU(),
         nn.Linear(nunits, nclasses)
     )
@@ -245,20 +245,18 @@ def calculate_bound(model, init_model, device, data_loader, margin):
     return measure
 
 def save_checkpoint(fileName, model):
-    if not os.path.isdir('checkpoint'):
-        os.mkdir('checkpoint')
-    model_pth = f'checkpoint/{fileName}.pt'
+    model_pth = f'{fileName}.pt'
     torch.save(model.state_dict(), model_pth)
 
 def main():
     # define the parameters to train your model
     # *********** Your code starts here ***********
     datadir = 'datasets'  # the directory of the dataset
-    nchannels = 3 * 32 * 32
+    nchannels = 3
     nclasses = 10
-    nunits =256
+    nunits = 1024
     lr = 0.001
-    mt = 0.8                #momentum
+    mt = 0.9                #momentum
     batchsize = 64
     epochs = 25
     stopcond = 0.01
@@ -305,7 +303,7 @@ def main():
 
     # save the trained model
     # *********** Your code starts here ***********
-    save_checkpoint('check2', model)
+    save_checkpoint('model1', model)
     # *********** Your code ends here *************
 
     # calculate the training error and margin (on Training set) of the learned model
