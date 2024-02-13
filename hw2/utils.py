@@ -5,6 +5,7 @@ from torch.autograd import Variable
 import torch.optim as optim
 from torchvision import transforms, datasets
 from torch.utils.data import DataLoader
+import numpy as np
 
 
 def make_dataloader(data_path, batch_size):
@@ -30,6 +31,8 @@ def eval_test(model, test_loader):
     model.eval()
     test_loss = 0
     correct = 0
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
     with torch.no_grad():
         for inputs, targets in test_loader:
             inputs, targets = inputs.to(device), targets.to(device)
@@ -50,6 +53,8 @@ def eval_robust(model, test_loader, pgd_attack):
     model.eval()
     robust_loss = 0
     correct = 0
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
     with torch.no_grad():
         for inputs, targets in test_loader:
             inputs, targets = inputs.to(device), targets.to(device)
